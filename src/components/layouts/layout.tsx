@@ -22,7 +22,12 @@ export default function Layout({ isHome, children }: LayoutProps) {
     >
       <Header isMobile={isBelowMd} />
 
-      <main className={clsx("pt-[90px]", isAboveMd && "flex-grow")}>
+      <main
+        className={clsx(
+          "overflow-x-hidden px-[48px] pt-[90px]",
+          isAboveMd && "flex-grow",
+        )}
+      >
         {children}
       </main>
 
