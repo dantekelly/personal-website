@@ -40,12 +40,16 @@ export function useBreakpoint<K extends string>(breakpointKey: K) {
   if (typeof breakpointValue !== "string") {
     throw new Error(`Invalid breakpoint value`);
   }
+  if (!breakpointKey) {
+    throw new Error("Breakpoint key is empty");
+  }
 
   const bool = useMediaQuery({
     query: `(max-width: ${breakpointValue})`,
   });
+
   const capitalizedKey =
-    breakpointKey[0].toUpperCase() + breakpointKey.substring(1);
+    breakpointKey[0]!.toUpperCase() + breakpointKey.substring(1);
 
   type KeyAbove = `isAbove${Capitalize<K>}`;
   type KeyBelow = `isBelow${Capitalize<K>}`;
