@@ -13,7 +13,7 @@ interface HeaderProps {
 export default function Header({ isMobile }: HeaderProps) {
   return (
     <Navbar border fluid>
-      <Navbar.Brand as={Link} href="/">
+      <Navbar.Brand as={Link} href="/" className="h-[90px]">
         <Image src={DanteIcon} alt="Dante Icon" width={42} height={42} />
       </Navbar.Brand>
       <div className="flex items-center md:order-2">

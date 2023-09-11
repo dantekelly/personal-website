@@ -2,6 +2,8 @@ import * as React from "react";
 
 import Header from "~/components/layouts/header";
 import { useBreakpoint } from "~/utils/useBreakpoint";
+import Aside from "~/components/layouts/aside";
+import clsx from "clsx";
 
 interface LayoutProps {
   isHome?: boolean;
@@ -9,19 +11,22 @@ interface LayoutProps {
 }
 
 export default function Layout({ isHome, children }: LayoutProps) {
-  const { isBelowMd } = useBreakpoint("md");
-
-  const showAside = isHome ?? isBelowMd;
+  const { isBelowMd, isAboveMd } = useBreakpoint("md");
 
   return (
-    <>
+    <div
+      className={clsx(
+        "grid grid-cols-1 bg-slate-900 grid-areas-layout",
+        isAboveMd && "grid-cols-layout",
+      )}
+    >
       <Header isMobile={isBelowMd} />
 
-      <main className="flex min-h-screen flex-col items-center justify-center bg-slate-900 pt-20">
+      <main className={clsx("pt-[90px]", isAboveMd && "flex-grow")}>
         {children}
       </main>
 
-      {showAside && <aside></aside>}
-    </>
+      {isAboveMd && <Aside isMobile={isBelowMd} />}
+    </div>
   );
 }
