@@ -43,7 +43,7 @@ export function useBreakpoint<K extends string>(breakpointKey: K) {
 
   const bool = useMediaQuery({
     query: `(max-width: ${breakpointValue})`,
-  }) ;
+  });
   const capitalizedKey =
     breakpointKey[0].toUpperCase() + breakpointKey.substring(1);
 
