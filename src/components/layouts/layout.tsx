@@ -1,18 +1,20 @@
 import * as React from "react";
-
-import Header from "~/components/layouts/header";
-import { useBreakpoint } from "~/utils/useBreakpoint";
-import Aside from "~/components/layouts/aside";
 import clsx from "clsx";
 
+import Header from "~/components/layouts/header";
+import Aside from "~/components/layouts/aside";
+
 interface LayoutProps {
-  isHome?: boolean;
   children: React.ReactNode;
+  isBelowMd: boolean;
+  isAboveMd: boolean;
 }
 
-export default function Layout({ isHome, children }: LayoutProps) {
-  const { isBelowMd, isAboveMd } = useBreakpoint("md");
-
+export default function Layout({
+  isBelowMd,
+  isAboveMd,
+  children,
+}: LayoutProps) {
   return (
     <div
       className={clsx(
@@ -24,7 +26,7 @@ export default function Layout({ isHome, children }: LayoutProps) {
 
       <main
         className={clsx(
-          "overflow-x-hidden px-[48px] pt-[90px]",
+          "overflow-x-hidden px-[24px] pt-[90px] lg:px-[48px]",
           isAboveMd && "flex-grow",
         )}
       >

@@ -198,9 +198,10 @@ export default function Aside({ isMobile }: HeaderProps) {
   return (
     <aside
       className={clsx(
-        "no-scrollbar bg-slate-900 px-[48px] py-[24px]",
+        " bg-slate-900 px-[24px] py-[24px] lg:px-[48px]",
+        isMobile && "my-5",
         !isMobile &&
-          "sticky top-[90px] mt-[90px] h-[calc(100vh_-_90px)] w-[400px] overflow-y-scroll scroll-smooth border-l border-slate-600",
+          "no-scrollbar sticky top-[90px] mt-[90px] h-[calc(100vh_-_90px)] w-[400px] overflow-y-scroll scroll-smooth border-l border-slate-600",
       )}
     >
       <p className="text-slate-50">
