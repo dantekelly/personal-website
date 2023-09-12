@@ -14,9 +14,13 @@ import grid from "./sections/grid";
 import mainImage from "./sections/main-image";
 import spacer from "./sections/spacer";
 import { type SchemaTypeDefinition } from "@sanity/types/src/schema/definition/schemaDefinition";
+import work from "./documents/work";
+import project from "./documents/project";
 
 export const schemasTypes: SchemaTypeDefinition[] = [
   page,
+  work,
+  project,
   siteSettings,
   metaFields,
   columns,

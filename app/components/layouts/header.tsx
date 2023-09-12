@@ -1,26 +1,20 @@
-"use client";
-
-import { Button, Navbar } from "flowbite-react";
 import Image from "next/image";
 import Link from "next/link";
 
 import DanteIcon from "@/icons/icon-dante.png";
+import { Button } from "~/components/ui/button";
 
-interface HeaderProps {
-  isMobile?: boolean;
-}
-
-export default function Header({ isMobile }: HeaderProps) {
+export default function Header() {
   return (
-    <Navbar border fluid>
-      <Navbar.Brand as={Link} href="/" className="h-[90px]">
+    <div className="fixed left-0 right-0 flex flex-1 content-between justify-between border-0 border-b border-slate-600 bg-slate-900 px-[24px] lg:px-[48px]">
+      <Link href="/" className="mr-6 flex items-center space-x-2">
         <Image src={DanteIcon} alt="Dante Icon" width={42} height={42} />
-      </Navbar.Brand>
-      <div className="flex items-center md:order-2">
+      </Link>
+      <nav className="flex h-[89px] items-center space-x-6 text-sm font-medium">
         <Link href="mailto:dante@dantekelly.com">
           <Button color="primary">Contact Me</Button>
         </Link>
-      </div>
-    </Navbar>
+      </nav>
+    </div>
   );
 }

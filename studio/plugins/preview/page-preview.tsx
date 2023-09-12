@@ -7,7 +7,7 @@ interface PreviewProps {
   };
 }
 
-function getPreviewUrl(slug: string) {
+export const getPreviewUrl = (slug: string) => {
   if (slug === "home") {
     return window.location.host;
   }
@@ -17,7 +17,7 @@ function getPreviewUrl(slug: string) {
   url.searchParams.set("type", "page");
 
   return url.toString();
-}
+};
 
 const PagePreview = (props: PreviewProps) => {
   const { displayed } = props.document;

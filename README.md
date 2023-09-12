@@ -57,12 +57,13 @@ quickly deploy your own instance of this project by clicking the button below.
 Here's a sneak peek into what's coming next:
 
 - [ ] Integrate Sanity for blog posts and CMS.
+- [x] Replace Flowbite with Shadcn for server component support.
 - [ ] Publish my inaugural blog post.
 - [ ] Enhance user interactivity with emoji reactions.
 - [ ] Prevent malicious user experience with rate limiting.
 - [ ] Enhance user experience with search functionality.
 - [ ] Enhance user engagement with blog pages, authentication, and commenting.
-- [ ] Expand content reach with an RSS feed and email newsletter.
+- [ ] Expand content reach with an RSS feed.
 - [ ] Dive deeper into analytics with Axiom.
 - [ ] Keep users engaged with push notifications.
 - [ ] Reduce viewer churn rate with a light mode.

@@ -22,6 +22,16 @@ const socialFields = defineField({
       type: "url",
       title: "Facebook URL",
     },
+    {
+      name: "github",
+      type: "url",
+      title: "Github URL",
+    },
+    {
+      name: "linkedIn",
+      type: "url",
+      title: "LinkedIn URL",
+    },
   ],
 });
 
