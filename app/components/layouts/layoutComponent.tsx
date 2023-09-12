@@ -10,7 +10,7 @@ interface LayoutProps {
   isAboveMd: boolean;
 }
 
-export default function Layout({
+export default function LayoutComponent({
   isBelowMd,
   isAboveMd,
   children,

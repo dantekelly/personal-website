@@ -40,6 +40,11 @@ bun install
 bun dev
 ```
 
+## CAUTION
+
+In production, please move the sanity files to a new route for best security practices. I only include it within theis
+route to consolidate all files into one easy to deploy git.
+
 ## Deployment
 
 For a seamless deployment experience and optimal performance, I've chosen Vercel as my hosting platform. Feel free to

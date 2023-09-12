@@ -16,7 +16,7 @@ import SamsungIcon from "@/work-icons/samsung.png";
 import TxmIcon from "@/work-icons/txm.png";
 import UsaaIcon from "@/work-icons/usaa.png";
 
-import Layout from "~/components/layouts/layout";
+import LayoutComponent from "~/components/layouts/layoutComponent";
 import { useEffect } from "react";
 import { useBreakpoint } from "~/utils/useBreakpoint";
 import Aside from "~/components/layouts/aside";
@@ -97,7 +97,7 @@ Often I’ll take on additional smaller projects to test out cutting-edge techno
 
 If you like one of my experiments, don’t be a stranger, report some issues.`;
   return (
-    <Layout isAboveMd={isAboveMd} isBelowMd={isBelowMd}>
+    <LayoutComponent isAboveMd={isAboveMd} isBelowMd={isBelowMd}>
       <div className="flex flex-col items-center justify-center gap-12 px-4 py-16 xl:flex-row ">
         <Image src={image} alt="Dante Kelly" width={300} height={305} />
         <div className="flex flex-col gap-5">
@@ -118,6 +118,6 @@ If you like one of my experiments, don’t be a stranger, report some issues.`;
       </div>
 
       {isBelowMd && <Aside isMobile />}
-    </Layout>
+    </LayoutComponent>
   );
 }
