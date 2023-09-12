@@ -1,8 +1,8 @@
 import * as React from "react";
 import clsx from "clsx";
 
-import Header from "~/components/layouts/header";
-import Aside from "~/components/layouts/aside";
+import Header from "./header";
+import Aside from "./aside";
 
 interface LayoutProps {
   children: React.ReactNode;
