@@ -28,6 +28,14 @@ export default {
           "900": "#0F172A",
         },
       },
+      // Added for development lookup
+      screens: {
+        sm: "480px",
+        md: "768px",
+        lg: "976px",
+        xl: "1200px",
+        "2xl": "1440px",
+      },
     },
   },
   plugins: [
