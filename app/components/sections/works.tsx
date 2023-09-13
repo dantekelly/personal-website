@@ -21,7 +21,7 @@ export default async function Works() {
         .width(100)
         .maxWidth(100)
         .maxHeight(40)
-        .fit("max")
+        .fit("fill")
         .url(),
       alt: work.title,
       id: work._id,
