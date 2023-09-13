@@ -14,7 +14,8 @@ provide a seamless user experience with a focus on performance, accessibility, a
 
 - **Hosting**: Vercel
 - **Framework**: Next.js (React)
-- **Runtime / Package Manager**: Bun
+- **CMS**: Sanity
+- **Package Manager**: Bun
 
 ## Getting Started
 
@@ -40,10 +41,13 @@ bun install
 bun dev
 ```
 
-## CAUTION
+3. Access the development server at `http://localhost:3000` or access the CMS at `http://localhost/studio:3000`.
 
-In production, please move the sanity files to a new route for best security practices. I only include it within theis
-route to consolidate all files into one easy to deploy git.
+## ⚠️Caution
+
+In production, please move the sanity files to a new route for best security practices. I only include it within this
+route to consolidate all files into one easy to deploy git. For this project, I have disabled the CORS header on
+production routes for security.
 
 ## Deployment
 
