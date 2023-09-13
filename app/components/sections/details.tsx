@@ -76,9 +76,23 @@ const List = ({ title, items }: ListProps) => (
       {title}
     </h3>
     <ul className="space-y-[8px]">
-      {items.map((item) => (
-        <ListItem key={item.id} {...item} />
-      ))}
+      {items
+        .sort((a, b) => {
+          if (a.year && b.year) {
+            if (a.year.includes("Ongoing") || a.year.includes("ago")) {
+              return -1;
+            } else if (b.year.includes("Ongoing") || b.year.includes("ago")) {
+              return 1;
+            }
+
+            return b.year.localeCompare(a.year);
+          }
+
+          return 0;
+        })
+        .map((item) => (
+          <ListItem key={item.id} {...item} />
+        ))}
     </ul>
   </div>
 );
