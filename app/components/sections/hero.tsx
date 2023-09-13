@@ -12,7 +12,7 @@ Often I’ll take on additional smaller projects to test out cutting-edge techno
 If you like one of my experiments, don’t be a stranger, report some issues.`;
   return (
     <div className="flex flex-col items-center justify-center gap-12 px-4 py-16 xl:flex-row ">
-      <Image src={image} alt="Dante Kelly" width={300} height={305} />
+      <Image src={image} alt="Dante Kelly" width={300} height={305} priority />
 
       <div className="flex flex-col gap-5">
         <h1 className="text-5xl font-extrabold text-slate-50">{title}</h1>
