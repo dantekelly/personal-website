@@ -1,10 +1,11 @@
-import { RiPagesLine } from "react-icons/ri";
+import { RiMedalLine } from "react-icons/ri";
 import type { StructureBuilder } from "sanity/desk";
 
 export const ProjectMenuItem = (S: StructureBuilder) =>
   S.listItem()
     .title("Projects")
-    .icon(RiPagesLine)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+    .icon(RiMedalLine)
     .child(
       S.documentTypeList("project")
         .title("Projects")
