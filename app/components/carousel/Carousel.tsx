@@ -36,7 +36,7 @@ const Carousel = ({ items }: CarouselProps) => {
   const { isBelowLg } = useBreakpoint("lg");
   const { isBelowMd } = useBreakpoint("md");
   const { isBelowSm } = useBreakpoint("sm");
-  const waitTime = 1000 * 5;
+  const waitTime = 1000 * 3.5;
 
   const itemsPerSlide = isBelowSm
     ? 3
