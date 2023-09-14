@@ -103,7 +103,19 @@ const List = ({ title, items }: ListProps) => (
     </h3>
     <ul className="space-y-[8px]">
       {items
-        .filter((item) => !!item)
+        .sort((a, b) => {
+          if (a.lastUpdated && b.lastUpdated) {
+            if (a.lastUpdated.includes("Ongoing")) {
+              return -1;
+            } else if (b.lastUpdated.includes("Ongoing")) {
+              return 1;
+            }
+
+            return b.lastUpdated.localeCompare(a.lastUpdated);
+          }
+
+          return 0;
+        })
         .map((item) => (
           <ListItem key={item.id} {...item} />
         ))}
