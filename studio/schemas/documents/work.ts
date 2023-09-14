@@ -1,12 +1,9 @@
-import slug from "slugify";
-import { RiPagesLine } from "react-icons/ri";
 import { defineType, defineField } from "sanity";
 
 const work = defineType({
   name: "work",
   type: "document",
   title: "Works",
-  // icon: RiPagesLine,
   fields: [
     defineField({
       name: "title",

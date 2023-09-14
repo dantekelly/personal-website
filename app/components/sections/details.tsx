@@ -1,6 +1,8 @@
 import Image from "next/image";
 import clsx from "clsx";
 import { type StaticImport } from "next/dist/shared/lib/get-img-props";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
 
 import { Badge } from "~/components/ui/badge";
 import { sanityClient, urlForImage } from "~/lib/sanity/client";
@@ -13,15 +15,17 @@ import BlankIcon from "@/icons/icon-blank.png";
 import GithubIcon from "@/icons/icon-github.png";
 import LinkedInIcon from "@/icons/icon-linkedin.png";
 import TwitterIcon from "@/icons/icon-twitter.png";
+import { getLastCommitDate as getLastCommitApi } from "~/utils/octokit";
 
 interface ListItemProps {
-  href: string;
-  src: string | StaticImport;
-  name: string;
   alt: string;
-  year?: string;
+  githubLink?: string;
+  href: string;
   id: string;
   isExperiment?: boolean;
+  lastUpdated?: string;
+  name: string;
+  src: string | StaticImport;
 }
 
 const ListItem = ({
@@ -29,15 +33,37 @@ const ListItem = ({
   name,
   src = BlankIcon,
   alt,
-  year,
+  lastUpdated,
+  isExperiment,
 }: ListItemProps) => {
   let formattedYear;
 
-  if (year) {
-    if (year.includes("Ongoing") || year.includes("ago")) {
-      formattedYear = <p className="text-green-400">{year}</p>;
+  if (lastUpdated && !isExperiment) {
+    if (lastUpdated.includes("Ongoing") || lastUpdated.includes("ago")) {
+      formattedYear = <p className="text-green-400">{lastUpdated}</p>;
     } else {
-      formattedYear = <p className="text-blue-400">{year}</p>;
+      formattedYear = <p className="text-blue-400">{lastUpdated}</p>;
+    }
+  }
+
+  if (isExperiment) {
+    // If time is over one week, show an orange date
+    if (dayjs(lastUpdated).isBefore(dayjs().subtract(1, "year"))) {
+      formattedYear = (
+        <p className="text-slate-500">{dayjs(lastUpdated).fromNow()}</p>
+      );
+    } else if (dayjs(lastUpdated).isBefore(dayjs().subtract(1, "month"))) {
+      formattedYear = (
+        <p className="text-orange-400">{dayjs(lastUpdated).fromNow()}</p>
+      );
+    } else if (dayjs(lastUpdated).isBefore(dayjs().subtract(1, "week"))) {
+      formattedYear = (
+        <p className="text-blue-400">{dayjs(lastUpdated).fromNow()}</p>
+      );
+    } else {
+      formattedYear = (
+        <p className="text-green-400">{dayjs(lastUpdated).fromNow()}</p>
+      );
     }
   }
 
@@ -49,7 +75,7 @@ const ListItem = ({
             <Image src={src} alt={alt} width={20} height={20} />
             <p className="text-slate-50">{name}</p>
           </div>
-          {year ? (
+          {lastUpdated ? (
             <Badge>{formattedYear}</Badge>
           ) : (
             <Image
@@ -78,14 +104,14 @@ const List = ({ title, items }: ListProps) => (
     <ul className="space-y-[8px]">
       {items
         .sort((a, b) => {
-          if (a.year && b.year) {
-            if (a.year.includes("Ongoing") || a.year.includes("ago")) {
+          if (a.lastUpdated && b.lastUpdated) {
+            if (a.lastUpdated.includes("Ongoing")) {
               return -1;
-            } else if (b.year.includes("Ongoing") || b.year.includes("ago")) {
+            } else if (b.lastUpdated.includes("Ongoing")) {
               return 1;
             }
 
-            return b.year.localeCompare(a.year);
+            return b.lastUpdated.localeCompare(a.lastUpdated);
           }
 
           return 0;
@@ -97,62 +123,96 @@ const List = ({ title, items }: ListProps) => (
   </div>
 );
 
+async function getLastCommitDate(
+  items: ListItemProps[],
+  username: string,
+): Promise<ListItemProps[]> {
+  for (const item of items) {
+    if (!item.githubLink) {
+      continue;
+    }
+
+    const trimmedUrl = item.githubLink.endsWith("/")
+      ? item.githubLink.slice(0, -1)
+      : item.githubLink;
+    const repo = trimmedUrl.split("/").pop() ?? "";
+
+    if (!repo) {
+      continue;
+    }
+
+    try {
+      item.lastUpdated = await getLastCommitApi(repo, username);
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+  return items;
+}
+
 const Lists = async () => {
   const siteSettings =
     await sanityClient.fetch<SiteSettings>(siteSettingsQuery);
   const projects = await sanityClient.fetch<Project[]>(projectQuery);
 
+  dayjs.extend(relativeTime);
+
   const social = siteSettings?.socialFields ?? {};
+  const githubUser: string = siteSettings?.githubUser ?? "";
 
-  if (social._type) delete social._type;
+  const socialMediaItems: ListItemProps[] = Object.keys(social).reduce(
+    (acc: ListItemProps[], key) => {
+      switch (key) {
+        case "linkedIn":
+          acc.push({
+            href: social[key] ?? "#",
+            src: LinkedInIcon,
+            name: "LinkedIn",
+            alt: "LinkedIn",
+            id: key,
+          });
+          break;
+        case "github":
+          acc.push({
+            href: social[key] ?? "#",
+            src: GithubIcon,
+            name: "GitHub",
+            alt: "GitHub",
+            id: key,
+          });
+          break;
+        case "twitter":
+          acc.push({
+            href: social[key] ?? "#",
+            src: TwitterIcon,
+            name: "Twitter",
+            alt: "Twitter",
+            id: key,
+          });
+          break;
+        default:
+          break;
+      }
+      return acc;
+    },
+    [],
+  );
 
-  const socialMediaItems: ListItemProps[] = Object.keys(social).map((key) => {
-    switch (key) {
-      case "linkedIn":
-        return {
-          href: social[key] ?? "#",
-          src: LinkedInIcon,
-          name: "LinkedIn",
-          alt: "LinkedIn",
-          id: key,
-        };
-      case "github":
-        return {
-          href: social[key] ?? "#",
-          src: GithubIcon,
-          name: "GitHub",
-          alt: "GitHub",
-          id: key,
-        };
-      case "twitter":
-        return {
-          href: social[key] ?? "#",
-          src: TwitterIcon,
-          name: "Twitter",
-          alt: "Twitter",
-          id: key,
-        };
-      default:
-        return {
-          href: "#",
-          src: BlankIcon,
-          name: key,
-          alt: key,
-          id: key,
-        };
-    }
+  const formattedProjects: ListItemProps[] = projects.map((project) => {
+    const { title, _id, href, image, isExperiment, lastUpdated, githubLink } =
+      project;
+    return {
+      alt: title,
+      id: _id,
+      name: title,
+      href,
+      src: urlForImage(image).height(100).width(100).url(),
+      isExperiment,
+      lastUpdated,
+      githubLink,
+    };
   });
-
-  const formattedProjects: ListItemProps[] = projects.map((project) => ({
-    alt: project.title,
-    id: project._id,
-    name: project.title,
-    href: project.href,
-    src: urlForImage(project.image).height(100).width(100).url(),
-    isExperiment: project.isExperiment,
-    year: project.lastUpdated,
-  }));
-
   const experimentItems = formattedProjects.filter(
     (project) => project.isExperiment,
   );
@@ -160,10 +220,15 @@ const Lists = async () => {
     (project) => !project.isExperiment,
   );
 
+  const formattedExperimentItems = await getLastCommitDate(
+    experimentItems,
+    githubUser,
+  );
+
   return (
     <>
       <List title="Top Professional Projects" items={projectItems} />
-      <List title="Experiments" items={experimentItems} />
+      <List title="Experiments" items={formattedExperimentItems} />
       <List title="Social Media" items={socialMediaItems} />
     </>
   );
