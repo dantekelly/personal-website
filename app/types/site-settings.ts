@@ -4,10 +4,6 @@ import { type ExternalLink } from "./objects/external-link";
 import { type SocialFields } from "./objects/social-fields";
 
 export interface SiteSettings extends SanityDocument {
-  _type: "siteSettings";
-  _key: string;
-  title: string;
-  description: string;
-  navigation?: Array<InternalLink | ExternalLink>;
   socialFields?: SocialFields;
+  githubUser?: string;
 }

@@ -1,11 +1,9 @@
-import { RiSettings5Line } from "react-icons/ri";
 import { defineType, defineField } from "sanity";
 
 const siteSettings = defineType({
   name: "siteSettings",
   type: "document",
   title: "Site Settings",
-  icon: RiSettings5Line,
   groups: [
     {
       name: "meta",
@@ -65,6 +63,13 @@ const siteSettings = defineType({
       type: "socialFields",
       description: "Social media",
       group: "social",
+    }),
+    defineField({
+      name: "githubUser",
+      title: "Github Username",
+      type: "string",
+      description: "Username for GitHub projects.",
+      validation: (Rule) => Rule.required(),
     }),
   ],
   preview: {
