@@ -9,4 +9,5 @@ export interface Project extends SanityDocument {
   lastUpdated: string;
   image: SanityImageSource;
   isExperiment: boolean;
+  githubLink?: string;
 }
