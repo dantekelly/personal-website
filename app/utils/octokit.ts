@@ -15,6 +15,7 @@ export const getLastCommitDate = cache(
           headers: {
             "X-GitHub-Api-Version": "2022-11-28",
           },
+          next: { revalidate: 3600 },
         },
       );
       const lastCommit = data[0];
