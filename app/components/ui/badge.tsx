@@ -9,7 +9,7 @@ const badgeVariants = cva(
     variants: {
       variant: {
         default:
-          "flex h-fit items-center gap-1 font-semibold border border-slate-700 dark:border dark:border-slate-700 dark:bg-transparent dark:text-slate-50",
+          "select-none flex h-fit items-center gap-1 font-semibold border border-slate-700 dark:border dark:border-slate-700 dark:bg-transparent dark:text-slate-50",
         secondary:
           "border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80",
         destructive:
@@ -24,10 +24,20 @@ const badgeVariants = cva(
 );
 
 export interface BadgeProps
-  extends React.HTMLAttributes<HTMLDivElement>,
+  extends React.HTMLAttributes<HTMLDivElement | HTMLButtonElement>,
     VariantProps<typeof badgeVariants> {}
 
-function Badge({ className, variant, ...props }: BadgeProps) {
+function Badge({ className, variant, onClick, ...props }: BadgeProps) {
+  if (!!onClick) {
+    return (
+      <button
+        className={cn(badgeVariants({ variant }), className)}
+        onClick={onClick}
+        {...props}
+      />
+    );
+  }
+
   return (
     <div className={cn(badgeVariants({ variant }), className)} {...props} />
   );
