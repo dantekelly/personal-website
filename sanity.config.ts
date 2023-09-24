@@ -1,6 +1,8 @@
 import { defineConfig } from "sanity";
 import { deskTool } from "sanity/desk";
 import { visionTool } from "@sanity/vision";
+import { unsplashImageAsset } from "sanity-plugin-asset-source-unsplash";
+
 import { singletonPlugin } from "./studio/plugins/singletonPlugin";
 import { previewDocumentNode } from "./studio/plugins/preview";
 import { schemasTypes } from "./studio/schemas";
@@ -21,5 +23,6 @@ export default defineConfig({
     }),
     singletonPlugin({ types: ["siteSettings"] }),
     visionTool(),
+    unsplashImageAsset(),
   ],
 });
