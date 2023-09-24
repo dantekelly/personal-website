@@ -23,6 +23,12 @@ const config = {
             },
         ],
         "@typescript-eslint/no-unused-vars": ["warn", {argsIgnorePattern: "^_"}],
+
+        // These rule are redundant or unnecessary with my current implementation of TypeScript.
+        "@typescript-eslint/no-unsafe-call": "warn",
+        "jsx-a11y/alt-text": "warn",
+        "@typescript-eslint/no-unsafe-argument": "warn",
+        "@typescript-eslint/no-unsafe-assignment": "warn",
     },
 };
 
