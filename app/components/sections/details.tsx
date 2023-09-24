@@ -15,9 +15,9 @@ import BlankIcon from "@/icons/icon-blank.png";
 import GithubIcon from "@/icons/icon-github.png";
 import LinkedInIcon from "@/icons/icon-linkedin.png";
 import TwitterIcon from "@/icons/icon-twitter.png";
-import { getLastCommitDate as getLastCommitApi } from "~/utils/octokit";
+import { getLastCommitDate, getTimeDifference } from "~/utils/octokit";
 
-interface ListItemProps {
+export interface ListItemProps {
   alt: string;
   githubLink?: string;
   href: string;
@@ -46,24 +46,19 @@ const ListItem = ({
     }
   }
 
+  // const fromNow = dayjs(lastUpdated).fromNow();
+  const fromNow = lastUpdated ? getTimeDifference(lastUpdated) : "0";
+
   if (isExperiment) {
     // If time is over one week, show an orange date
     if (dayjs(lastUpdated).isBefore(dayjs().subtract(1, "year"))) {
-      formattedYear = (
-        <p className="text-slate-500">{dayjs(lastUpdated).fromNow()}</p>
-      );
+      formattedYear = <p className="text-slate-500">{fromNow}</p>;
     } else if (dayjs(lastUpdated).isBefore(dayjs().subtract(1, "month"))) {
-      formattedYear = (
-        <p className="text-orange-400">{dayjs(lastUpdated).fromNow()}</p>
-      );
+      formattedYear = <p className="text-orange-400">{fromNow}</p>;
     } else if (dayjs(lastUpdated).isBefore(dayjs().subtract(1, "week"))) {
-      formattedYear = (
-        <p className="text-blue-400">{dayjs(lastUpdated).fromNow()}</p>
-      );
+      formattedYear = <p className="text-blue-400">{fromNow}</p>;
     } else {
-      formattedYear = (
-        <p className="text-green-400">{dayjs(lastUpdated).fromNow()}</p>
-      );
+      formattedYear = <p className="text-green-400">{fromNow}</p>;
     }
   }
 
@@ -122,34 +117,6 @@ const List = ({ title, items }: ListProps) => (
     </ul>
   </div>
 );
-
-async function getLastCommitDate(
-  items: ListItemProps[],
-  username: string,
-): Promise<ListItemProps[]> {
-  for (const item of items) {
-    if (!item.githubLink) {
-      continue;
-    }
-
-    const trimmedUrl = item.githubLink.endsWith("/")
-      ? item.githubLink.slice(0, -1)
-      : item.githubLink;
-    const repo = trimmedUrl.split("/").pop() ?? "";
-
-    if (!repo) {
-      continue;
-    }
-
-    try {
-      item.lastUpdated = await getLastCommitApi(repo, username);
-    } catch (e) {
-      console.error(e);
-    }
-  }
-
-  return items;
-}
 
 const Lists = async () => {
   const siteSettings =
