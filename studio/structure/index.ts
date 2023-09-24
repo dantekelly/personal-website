@@ -10,6 +10,8 @@ export const structure: StructureResolver = (S, _context) =>
     .items([
       SiteSettings(S),
       PageMenuItem(S),
+      PostMenuItem(S),
+      TagMenuItem(S),
       ProjectMenuItem(S),
       WorkMenuItem(S),
     ]);
