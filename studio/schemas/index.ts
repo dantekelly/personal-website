@@ -4,6 +4,8 @@ import { type SchemaTypeDefinition } from "@sanity/types/src/schema/definition/s
 import page from "./documents/page";
 import post from "./documents/post";
 import siteSettings from "./documents/site-settings";
+import work from "./documents/work";
+import project from "./documents/project";
 
 // Objects
 import columns from "./objects/columns";
@@ -19,9 +21,7 @@ import blockContent from "./sections/block-content";
 import grid from "./sections/grid";
 import mainImage from "./sections/main-image";
 import spacer from "./sections/spacer";
-import { type SchemaTypeDefinition } from "@sanity/types/src/schema/definition/schemaDefinition";
-import work from "./documents/work";
-import project from "./documents/project";
+import tag from "./documents/tag";
 
 export const schemasTypes: SchemaTypeDefinition[] = [
   // Documents
@@ -45,7 +45,5 @@ export const schemasTypes: SchemaTypeDefinition[] = [
   blockContent,
   grid,
   mainImage,
-  socialFields,
-  blockContent,
   spacer,
 ];

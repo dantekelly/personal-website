@@ -2,7 +2,9 @@ import type { StructureResolver } from "sanity/desk";
 import { SiteSettings } from "./global-settings";
 import { PageMenuItem } from "./pages";
 import { WorkMenuItem } from "./works";
+import { PostMenuItem } from "./posts";
 import { ProjectMenuItem } from "./projects";
+import { TagMenuItem } from "./tags";
 
 export const structure: StructureResolver = (S, _context) =>
   S.list()
