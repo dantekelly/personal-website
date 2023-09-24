@@ -4,7 +4,16 @@ import Hero from "~/components/sections/hero";
 import Works from "~/components/sections/works";
 import Blogs from "~/components/sections/blogs";
 
-export default function Home() {
+import { sanityClient } from "~/lib/sanity/client";
+import { postsQuery } from "~/lib/queries";
+
+import { type Blog } from "~/types/blog";
+
+export default async function Page() {
+  const postsData = await sanityClient.fetch<Blog[]>(postsQuery, {
+    limit: 3,
+  });
+
   return (
     <LayoutComponent>
       <Hero />
@@ -13,7 +22,7 @@ export default function Home() {
 
       <Details />
 
-      <Blogs />
+      <Blogs data={postsData} />
     </LayoutComponent>
   );
 }

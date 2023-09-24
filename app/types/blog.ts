@@ -1,5 +1,9 @@
-import { type SanityImageObjectStub } from "@sanity/asset-utils";
-import { type StaticImport } from "next/dist/shared/lib/get-img-props";
+import { type Slug } from "@sanity/types";
+
+import { type MetaFields } from "~/types/meta-fields";
+import { type SimpleBlockContent } from "~/types/objects/simple-block-content";
+import { type Image } from "~/types/sections/image";
+import { type PostSections } from "~/types/sections";
 
 export interface Reaction {
   _id: string;
@@ -8,16 +12,22 @@ export interface Reaction {
   count: number;
 }
 
+export interface Tag {
+  _id: string;
+  title: string;
+}
+
 export interface Blog {
   _id: string;
-  tag: string;
   title: string;
-  summary: string;
-  slug: {
-    current: string;
-  };
+  slug: Slug;
+  meta: MetaFields;
   publishedAt: string;
-  readTime: number; // in ms
-  mainImage: string | StaticImport;
-  reactions: Reaction[];
+  keywords: string[];
+  excerpt: SimpleBlockContent;
+  featuredImage: Image;
+  content: PostSections[];
+  tag: Tag;
+
+  reactions?: Reaction[];
 }
