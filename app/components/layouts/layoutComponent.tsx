@@ -2,12 +2,18 @@ import * as React from "react";
 
 import Header from "./header";
 import Aside from "./aside";
+import { type SiteSettings } from "~/types/site-settings";
+import { type Project } from "~/types/project";
 
 interface LayoutProps {
   children: React.ReactNode;
+  data: {
+    projects: Project[];
+    siteSettings: SiteSettings;
+  };
 }
 
-export default function LayoutComponent({ children }: LayoutProps) {
+export default function LayoutComponent({ children, data }: LayoutProps) {
   return (
     <div className="grid grid-cols-1 bg-slate-900 grid-areas-layout lg:grid-cols-layout">
       <Header />
@@ -16,7 +22,7 @@ export default function LayoutComponent({ children }: LayoutProps) {
         {children}
       </main>
 
-      <Aside />
+      <Aside data={data} />
     </div>
   );
 }

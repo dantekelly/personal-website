@@ -26,6 +26,9 @@ const simpleBlockContent = defineField({
             annotations: [{ type: "link" }],
           },
         },
+        {
+          type: "breakObj",
+        },
       ],
     },
   ],

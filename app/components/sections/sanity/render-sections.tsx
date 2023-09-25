@@ -1,12 +1,16 @@
-import { type Sections } from "~/types/sections";
+import { type PageSections, type Sections } from "~/types/sections";
 import {
   BlockContent,
   Grid,
   MainImage,
   Spacer,
 } from "~/components/sections/sanity";
+import Works from "~/components/sections/works";
+import Hero from "~/components/sections/hero";
+import Details from "~/components/sections/details";
+import Blogs from "~/components/sections/blogs";
 
-const RenderSection = ({ section }: { section: Sections }) => {
+const RenderSection = ({ section }: { section: Sections | PageSections }) => {
   switch (section._type) {
     case "blockContent":
       return <BlockContent data={section} />;
@@ -16,6 +20,17 @@ const RenderSection = ({ section }: { section: Sections }) => {
       return <MainImage data={section} />;
     case "spacer":
       return <Spacer data={section} />;
+
+    case "hero":
+      return <Hero data={section} />;
+    /*
+                case "works":
+                  return <Works data={section} />;
+                case "details":
+                  return <Details data={section} />;
+                case "blogs":
+                  return <Blogs data={section} />;
+                  */
     default:
       console.warn(`Section couldn't be rendered`);
 

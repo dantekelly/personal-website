@@ -22,6 +22,8 @@ import grid from "./sections/grid";
 import mainImage from "./sections/main-image";
 import spacer from "./sections/spacer";
 import tag from "./documents/tag";
+import hero from "./sections/hero";
+import breakObj from "./objects/breakObj";
 
 export const schemasTypes: SchemaTypeDefinition[] = [
   // Documents
@@ -40,10 +42,12 @@ export const schemasTypes: SchemaTypeDefinition[] = [
   metaFields,
   socialFields,
   simpleBlockContent,
+  breakObj,
 
   // Sections
   blockContent,
   grid,
   mainImage,
   spacer,
+  hero,
 ];

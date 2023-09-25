@@ -7,7 +7,16 @@ export interface SanityCustomImage {
   _type: "customImage";
 }
 
-export type SanityBlock = PortableTextBlock | SanityCustomImage;
+export interface SanityBreakObj {
+  _key: string;
+  _type: "breakObj";
+  styling: "lineBreak";
+}
+
+export type SanityBlock =
+  | PortableTextBlock
+  | SanityCustomImage
+  | SanityBreakObj;
 
 export type SanityReference = {
   _type: "reference";

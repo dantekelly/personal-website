@@ -69,6 +69,9 @@ const blockContent = defineField({
           },
         },
         { name: "customImage", type: "mainImage" },
+        {
+          type: "breakObj",
+        },
       ],
     },
   ],

@@ -1,28 +1,48 @@
-import LayoutComponent from "~/components/layouts/layoutComponent";
-import Details from "~/components/sections/details";
-import Hero from "~/components/sections/hero";
-import Works from "~/components/sections/works";
-import Blogs from "~/components/sections/blogs";
+import type { Metadata } from "next";
 
-import { sanityClient } from "~/lib/sanity/client";
-import { postsQuery } from "~/lib/queries";
+import { IndexPageLayout } from "~/components/layouts";
+import { sanityClient, urlForImage } from "~/lib/sanity/client";
+import { pageQuery } from "~/lib/queries";
+import { type PageType } from "~/types/pageType";
 
-import { type Blog } from "~/types/blog";
-
-export default async function Page() {
-  const postsData = await sanityClient.fetch<Blog[]>(postsQuery, {
-    limit: 3,
+export const generateMetadata = async (): Promise<Metadata> => {
+  const page = await sanityClient.fetch<PageType>(pageQuery, {
+    slug: "home",
   });
 
-  return (
-    <LayoutComponent>
-      <Hero />
+  const ogImage =
+    (page.meta?.openGraphImage &&
+      urlForImage(page.meta.openGraphImage)
+        .width(800)
+        .height(600)
+        .fit("crop")
+        .url()) ??
+    "";
 
-      <Works />
+  return {
+    title: page.meta?.metaTitle ?? page.title,
+    icons: {
+      icon: "/favicon/favicon.svg",
+    },
+    description: page.meta?.metaDescription,
+    openGraph: {
+      title: page.meta?.openGraphTitle,
+      description: page.meta?.openGraphDescription,
+      images: [
+        {
+          url: ogImage,
+          width: 800,
+          height: 600,
+        },
+      ],
+    },
+  };
+};
 
-      <Details />
+export default async function Page() {
+  const pageData = await sanityClient.fetch<PageType>(pageQuery, {
+    slug: "home",
+  });
 
-      <Blogs data={postsData} />
-    </LayoutComponent>
-  );
+  return <IndexPageLayout page={pageData} />;
 }

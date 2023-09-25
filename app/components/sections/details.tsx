@@ -151,11 +151,14 @@ async function getLastCommitDate(
   return items;
 }
 
-const Lists = async () => {
-  const siteSettings =
-    await sanityClient.fetch<SiteSettings>(siteSettingsQuery);
-  const projects = await sanityClient.fetch<Project[]>(projectQuery);
+interface ListsProps {
+  data: {
+    projects: Project[];
+    siteSettings: SiteSettings;
+  };
+}
 
+const Lists = async ({ data: { siteSettings, projects } }: ListsProps) => {
   dayjs.extend(relativeTime);
 
   const social = siteSettings?.socialFields ?? {};
@@ -236,9 +239,13 @@ const Lists = async () => {
 
 interface DetailsProps {
   layout?: boolean;
+  data: {
+    projects: Project[];
+    siteSettings: SiteSettings;
+  };
 }
 
-export default function Details({ layout }: DetailsProps) {
+export default function Details({ data, layout }: DetailsProps) {
   return (
     <div
       className={clsx(
@@ -251,7 +258,7 @@ export default function Details({ layout }: DetailsProps) {
         able to share freely.
       </p>
       <div className="mt-[48px] flex flex-col gap-[36px]">
-        <Lists />
+        <Lists data={data} />
       </div>
     </div>
   );

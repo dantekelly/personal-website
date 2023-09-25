@@ -14,6 +14,12 @@ interface LinkType {
   };
 }
 
+interface BreakType {
+  node: {
+    style: string;
+  };
+}
+
 const BlockContent = ({ data }: { data: BlockContentType }) => {
   const blocks = data.text;
 
