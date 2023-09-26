@@ -1,0 +1,21 @@
+name: Update Develop
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Merge main into develop
+        run: |
+          git fetch origin develop:develop
+          git checkout develop
+          git merge main --no-edit
+          git push origin develop
