@@ -5,9 +5,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - uses: oven-sh/setup-bun@v1
         with:
-          node-version: 16
-      - run: npm install && npm install -g @lhci/cli@0.12.x
-      - run: npm run build
+          bun-version: latest
+      - run: bun install && bun add -g @lhci/cli@0.12.x
+      - run: bun run build
       - run: lhci autorun
