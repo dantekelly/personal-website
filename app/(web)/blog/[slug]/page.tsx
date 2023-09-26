@@ -1,13 +1,12 @@
-import { allPagesSlug, postQuery } from "~/lib/queries";
+import { allPagesSlug, allPostSlug, postQuery } from "~/lib/queries";
 import { sanityClient } from "~/lib/sanity/client";
 
 import { type Blog } from "~/types/blog";
-import type { PageType } from "~/types/pageType";
 
 import { BlogPageLayout } from "~/components/layouts";
 
 export const generateStaticParams = async () => {
-  const pageData = await sanityClient.fetch<PageType[]>(allPagesSlug);
+  const pageData = await sanityClient.fetch<string[]>(allPostSlug);
 
   return pageData.map((page) => ({
     slug: page,

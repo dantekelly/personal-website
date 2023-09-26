@@ -3,8 +3,8 @@
 import Image from "next/image";
 import { PortableText } from "@portabletext/react";
 import {
-  type UseNextSanityImageProps,
   useNextSanityImage,
+  type UseNextSanityImageProps,
 } from "next-sanity-image";
 
 import { type Hero as HeroItem } from "~/types/sections/hero";

@@ -1,6 +1,6 @@
 import slug from "slugify";
 import { RiPagesLine } from "react-icons/ri";
-import { defineType, defineField } from "sanity";
+import { defineField, defineType } from "sanity";
 
 const page = defineType({
   name: "page",

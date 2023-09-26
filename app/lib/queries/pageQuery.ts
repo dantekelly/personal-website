@@ -1,12 +1,5 @@
 import { groq } from "next-sanity";
-import {
-  blockContent,
-  contentFragment,
-  grid,
-  mainImage,
-  metaFieldsFragment,
-  spacer,
-} from "./fragments";
+import { contentFragment } from "./fragments";
 
 export const pageQuery = groq`
 	*[_type == 'page' && slug.current == $slug][0]{

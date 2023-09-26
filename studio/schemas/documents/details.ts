@@ -1,7 +1,5 @@
-import slug from "slugify";
-import { format } from "date-fns";
 import { RiArticleLine } from "react-icons/ri";
-import { defineType, defineField } from "sanity";
+import { defineField, defineType } from "sanity";
 
 const details = defineType({
   name: "details",

@@ -2,8 +2,6 @@ import * as React from "react";
 
 import Header from "./header";
 import Aside from "./aside";
-import { type SiteSettings } from "~/types/site-settings";
-import { type Project } from "~/types/project";
 import { type Details } from "~/types/sections/details";
 
 interface LayoutProps {

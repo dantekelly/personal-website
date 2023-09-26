@@ -3,7 +3,7 @@
 import * as React from "react";
 
 import BlogCard from "~/components/atoms/BlogCard";
-import { type Blog, type Blogs } from "~/types/blog";
+import { type Blogs } from "~/types/blog";
 
 export default function Blogs({ data }: { data: Blogs }) {
   if (!data || data.blogs.length === 0) return null;

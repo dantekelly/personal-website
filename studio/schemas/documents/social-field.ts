@@ -1,6 +1,5 @@
 import { RiShareLine } from "react-icons/ri";
 import { defineField } from "sanity";
-import { format } from "date-fns";
 
 const socialField = defineField({
   title: "Social",

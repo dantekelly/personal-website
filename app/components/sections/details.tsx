@@ -1,14 +1,10 @@
 import Image, { type StaticImageData } from "next/image";
 import clsx from "clsx";
-import { type StaticImport } from "next/dist/shared/lib/get-img-props";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 
 import { Badge } from "~/components/ui/badge";
-import { sanityClient, urlForImage } from "~/lib/sanity/client";
-import { projectQuery, siteSettingsQuery } from "~/lib/queries";
-import { type SiteSettings } from "~/types/site-settings";
-import { type Project } from "~/types/project";
+import { urlForImage } from "~/lib/sanity/client";
 import {
   type Details as DetailsType,
   type DetailsInnerContent,

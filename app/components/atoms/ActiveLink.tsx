@@ -2,7 +2,7 @@
 
 import { usePathname } from "next/navigation";
 import Link, { type LinkProps } from "next/link";
-import React, { type PropsWithChildren, useState, useEffect } from "react";
+import React, { type PropsWithChildren, useEffect, useState } from "react";
 
 type ActiveLinkProps = LinkProps & {
   className?: string;
