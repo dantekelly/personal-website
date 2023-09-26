@@ -31,3 +31,10 @@ export interface Blog {
 
   reactions?: Reaction[];
 }
+
+export interface Blogs {
+  _key: string;
+  _type: "blogsSection";
+  title: string;
+  blogs: Blog[];
+}

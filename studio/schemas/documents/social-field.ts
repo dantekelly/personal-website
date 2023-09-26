@@ -9,31 +9,38 @@ const socialField = defineField({
   icon: RiShareLine,
   fields: [
     defineField({
-      name: "name",
-      title: "Name",
+      name: "title",
+      title: "Title",
       type: "string",
+      validation: (Rule) => Rule.required(),
     }),
     defineField({
-      name: "url",
+      name: "href",
       type: "url",
       title: "Url",
+      validation: (Rule) =>
+        Rule.uri({
+          allowRelative: true,
+          scheme: ["https", "http", "mailto", "tel"],
+        }),
     }),
     defineField({
-      name: "icon",
-      title: "Icon",
+      name: "image",
+      title: "Image",
       type: "mainImage",
+      validation: (Rule) => Rule.required(),
     }),
   ],
   preview: {
     select: {
-      name: "name",
-      media: "icon.asset",
+      title: "title",
+      media: "image.asset",
     },
-    prepare(value: Record<"name" | "media", string>) {
-      const { name, media } = value;
+    prepare(value: Record<"title" | "media", string>) {
+      const { title, media } = value;
 
       return {
-        title: `${name}`,
+        title: `${title}`,
         media,
       };
     },

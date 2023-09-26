@@ -4,13 +4,11 @@ import Header from "./header";
 import Aside from "./aside";
 import { type SiteSettings } from "~/types/site-settings";
 import { type Project } from "~/types/project";
+import { type Details } from "~/types/sections/details";
 
 interface LayoutProps {
   children: React.ReactNode;
-  data: {
-    projects: Project[];
-    siteSettings: SiteSettings;
-  };
+  data: Details;
 }
 
 export default function LayoutComponent({ children, data }: LayoutProps) {

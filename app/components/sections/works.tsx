@@ -4,6 +4,7 @@ import { type CarouseItemType } from "~/components/carousel/Carousel";
 import { sanityClient, urlForImage } from "~/lib/sanity/client";
 import { workQuery } from "~/lib/queries";
 import { type Work } from "~/types/work";
+import { type Works as WorksType } from "~/types/sections/works";
 
 const DynamicCarousel = dynamic(
   () => import("~/components/carousel/Carousel"),
@@ -12,7 +13,11 @@ const DynamicCarousel = dynamic(
   },
 );
 
-export default async function Works() {
+interface WorksProps {
+  data: WorksType;
+}
+
+export default async function Works({ data }: WorksProps) {
   const works = await sanityClient.fetch<Work[]>(workQuery);
 
   const formattedWorks: CarouseItemType[] = works.map((work) => {

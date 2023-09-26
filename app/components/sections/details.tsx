@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Image, { type StaticImageData } from "next/image";
 import clsx from "clsx";
 import { type StaticImport } from "next/dist/shared/lib/get-img-props";
 import dayjs from "dayjs";
@@ -9,33 +9,31 @@ import { sanityClient, urlForImage } from "~/lib/sanity/client";
 import { projectQuery, siteSettingsQuery } from "~/lib/queries";
 import { type SiteSettings } from "~/types/site-settings";
 import { type Project } from "~/types/project";
+import {
+  type Details as DetailsType,
+  type DetailsInnerContent,
+} from "~/types/sections/details";
 
 import ArrowRightIcon from "@/icons/icon-arrow-right.png";
 import BlankIcon from "@/icons/icon-blank.png";
-import GithubIcon from "@/icons/icon-github.png";
-import LinkedInIcon from "@/icons/icon-linkedin.png";
-import TwitterIcon from "@/icons/icon-twitter.png";
 import { getLastCommitDate as getLastCommitApi } from "~/utils/octokit";
-
-interface ListItemProps {
-  alt: string;
-  githubLink?: string;
-  href: string;
-  id: string;
-  isExperiment?: boolean;
-  lastUpdated?: string;
-  name: string;
-  src: string | StaticImport;
-}
+import { PortableText } from "@portabletext/react";
 
 const ListItem = ({
   href,
-  name,
-  src = BlankIcon,
-  alt,
+  title,
+  image,
   lastUpdated,
   isExperiment,
-}: ListItemProps) => {
+}: DetailsInnerContent) => {
+  let alt = image.alt;
+  let imageSrc: StaticImageData | string = BlankIcon;
+
+  if (image) {
+    imageSrc = urlForImage(image.asset).width(20).height(20).url();
+    alt = image.alt;
+  }
+
   let formattedYear;
 
   if (lastUpdated && !isExperiment) {
@@ -72,8 +70,8 @@ const ListItem = ({
       <a target="_blank" href={href}>
         <div className="flex flex-1 items-center">
           <div className="flex flex-1 items-center gap-[9px]">
-            <Image src={src} alt={alt} width={20} height={20} />
-            <p className="text-slate-50">{name}</p>
+            <Image src={imageSrc} alt={alt} width={20} height={20} />
+            <p className="text-slate-50">{title}</p>
           </div>
           {lastUpdated ? (
             <Badge>{formattedYear}</Badge>
@@ -92,160 +90,86 @@ const ListItem = ({
 };
 
 interface ListProps {
-  items: ListItemProps[];
+  items: DetailsInnerContent[];
   title: string;
 }
 
-const List = ({ title, items }: ListProps) => (
-  <div>
-    <h3 className="mb-[10px] text-sm font-medium uppercase text-slate-400">
-      {title}
-    </h3>
-    <ul className="space-y-[8px]">
-      {items
-        .sort((a, b) => {
-          if (a.lastUpdated && b.lastUpdated) {
-            if (a.lastUpdated.includes("Ongoing")) {
-              return -1;
-            } else if (b.lastUpdated.includes("Ongoing")) {
-              return 1;
+const List = ({ title, items }: ListProps) => {
+  return (
+    <div>
+      <h3 className="mb-[10px] text-sm font-medium uppercase text-slate-400">
+        {title}
+      </h3>
+      <ul className="space-y-[8px]">
+        {items
+          .sort((a, b) => {
+            if (a.lastUpdated && b.lastUpdated) {
+              if (a.lastUpdated.includes("Ongoing")) {
+                return -1;
+              } else if (b.lastUpdated.includes("Ongoing")) {
+                return 1;
+              }
+
+              return b.lastUpdated.localeCompare(a.lastUpdated);
             }
 
-            return b.lastUpdated.localeCompare(a.lastUpdated);
-          }
+            return 0;
+          })
+          .map((item) => (
+            <ListItem key={item._id} {...item} />
+          ))}
+      </ul>
+    </div>
+  );
+};
 
-          return 0;
-        })
-        .map((item) => (
-          <ListItem key={item.id} {...item} />
-        ))}
-    </ul>
-  </div>
-);
+interface ListsProps {
+  data: DetailsType;
+}
 
-async function getLastCommitDate(
-  items: ListItemProps[],
-  username: string,
-): Promise<ListItemProps[]> {
-  for (const item of items) {
-    if (!item.githubLink) {
-      continue;
-    }
+const Lists = async ({ data }: ListsProps) => {
+  dayjs.extend(relativeTime);
 
-    const trimmedUrl = item.githubLink.endsWith("/")
-      ? item.githubLink.slice(0, -1)
-      : item.githubLink;
-    const repo = trimmedUrl.split("/").pop() ?? "";
+  const { githubUser } = data.siteSettings;
 
-    if (!repo) {
-      continue;
-    }
+  for (const section of data.content) {
+    for (const item of section.content) {
+      if (!item.githubLink) {
+        continue;
+      }
 
-    try {
-      item.lastUpdated = await getLastCommitApi(repo, username);
-    } catch (e) {
-      console.error(e);
+      const trimmedUrl = item.githubLink.endsWith("/")
+        ? item.githubLink.slice(0, -1)
+        : item.githubLink;
+      const repo = trimmedUrl.split("/").pop() ?? "";
+
+      if (!repo) {
+        continue;
+      }
+
+      try {
+        item.lastUpdated = await getLastCommitApi(repo, githubUser);
+      } catch (e) {
+        console.error(e);
+      }
     }
   }
 
-  return items;
-}
-
-interface ListsProps {
-  data: {
-    projects: Project[];
-    siteSettings: SiteSettings;
-  };
-}
-
-const Lists = async ({ data: { siteSettings, projects } }: ListsProps) => {
-  dayjs.extend(relativeTime);
-
-  const social = siteSettings?.socialFields ?? {};
-  const githubUser: string = siteSettings?.githubUser ?? "";
-
-  const socialMediaItems: ListItemProps[] = Object.keys(social).reduce(
-    (acc: ListItemProps[], key) => {
-      switch (key) {
-        case "linkedIn":
-          acc.push({
-            href: social[key] ?? "#",
-            src: LinkedInIcon,
-            name: "LinkedIn",
-            alt: "LinkedIn",
-            id: key,
-          });
-          break;
-        case "github":
-          acc.push({
-            href: social[key] ?? "#",
-            src: GithubIcon,
-            name: "GitHub",
-            alt: "GitHub",
-            id: key,
-          });
-          break;
-        case "twitter":
-          acc.push({
-            href: social[key] ?? "#",
-            src: TwitterIcon,
-            name: "Twitter",
-            alt: "Twitter",
-            id: key,
-          });
-          break;
-        default:
-          break;
-      }
-      return acc;
-    },
-    [],
-  );
-
-  const formattedProjects: ListItemProps[] = projects.map((project) => {
-    const { title, _id, href, image, isExperiment, lastUpdated, githubLink } =
-      project;
-    return {
-      alt: title,
-      id: _id,
-      name: title,
-      href,
-      src: urlForImage(image).height(100).width(100).url(),
-      isExperiment,
-      lastUpdated,
-      githubLink,
-    };
-  });
-  const experimentItems = formattedProjects.filter(
-    (project) => project.isExperiment,
-  );
-  const projectItems = formattedProjects.filter(
-    (project) => !project.isExperiment,
-  );
-
-  const formattedExperimentItems = await getLastCommitDate(
-    experimentItems,
-    githubUser,
-  );
-
-  return (
-    <>
-      <List title="Top Professional Projects" items={projectItems} />
-      <List title="Experiments" items={formattedExperimentItems} />
-      <List title="Social Media" items={socialMediaItems} />
-    </>
-  );
+  return data?.content?.map((section, idx) => (
+    <List key={idx} title={section.title} items={section.content} />
+  ));
 };
 
 interface DetailsProps {
   layout?: boolean;
-  data: {
-    projects: Project[];
-    siteSettings: SiteSettings;
-  };
+  data: DetailsType;
 }
 
-export default function Details({ data, layout }: DetailsProps) {
+export default function DetailsComponent({ data, layout }: DetailsProps) {
+  if (!data?.body?.text) {
+    return null;
+  }
+
   return (
     <div
       className={clsx(
@@ -253,10 +177,9 @@ export default function Details({ data, layout }: DetailsProps) {
         !layout && "md:hidden",
       )}
     >
-      <p className="text-slate-50">
-        Below you will find a collection of my projects and experiments that I’m
-        able to share freely.
-      </p>
+      <span className="text-slate-50">
+        <PortableText value={data.body.text} />
+      </span>
       <div className="mt-[48px] flex flex-col gap-[36px]">
         <Lists data={data} />
       </div>

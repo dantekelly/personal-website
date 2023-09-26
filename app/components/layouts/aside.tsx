@@ -1,12 +1,8 @@
 import Details from "~/components/sections/details";
-import { type Project } from "~/types/project";
-import { type SiteSettings } from "~/types/site-settings";
+import { type Details as DetailsType } from "~/types/sections/details";
 
 interface AsideProps {
-  data: {
-    projects: Project[];
-    siteSettings: SiteSettings;
-  };
+  data: DetailsType;
 }
 
 export default function Aside({ data }: AsideProps) {

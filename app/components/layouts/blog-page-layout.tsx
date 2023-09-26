@@ -9,16 +9,15 @@ import { type SiteSettings } from "~/types/site-settings";
 import { projectQuery, siteSettingsQuery } from "~/lib/queries";
 import { type Project } from "~/types/project";
 import { RenderSection } from "~/components/sections/sanity";
+import { type Details } from "~/types/sections/details";
+import { detailsQuery } from "~/lib/queries/details";
 
 type Props = {
   page: Blog;
 };
 
 const BlogPage = async ({ page }: Props) => {
-  // TODO: Combine Queries
-  const siteSettings =
-    await sanityClient.fetch<SiteSettings>(siteSettingsQuery);
-  const projects = await sanityClient.fetch<Project[]>(projectQuery);
+  const details = await sanityClient.fetch<Details>(detailsQuery);
 
   let imageSrc = null;
 
@@ -31,7 +30,7 @@ const BlogPage = async ({ page }: Props) => {
   }
 
   return (
-    <LayoutComponent data={{ projects, siteSettings }}>
+    <LayoutComponent data={details}>
       {page?.featuredImage && imageSrc && (
         <Image
           src={imageSrc}

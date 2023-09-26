@@ -1,14 +1,23 @@
 import { groq } from "next-sanity";
-import { blockContent, grid, mainImage, spacer } from "./fragments";
+import {
+  blockContent,
+  contentFragment,
+  grid,
+  mainImage,
+  metaFieldsFragment,
+  spacer,
+} from "./fragments";
 
 export const pageQuery = groq`
-	*[_type == 'page' && slug.current == $slug][0]
-`;
-
-export const pageWithPostsQuery = groq`
-	{
-		"page": *[_type == 'page' && slug.current == $slug][0],
-		"posts": *[_type == 'post' && defined(slug.current)] | order(_createdAt desc)[0...$limit]
+	*[_type == 'page' && slug.current == $slug][0]{
+	    title,
+	    meta,
+	    slug {
+	        current
+	    },
+	    content[] {
+	        ${contentFragment},
+	    }
 	}
 `;
 

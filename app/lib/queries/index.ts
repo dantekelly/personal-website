@@ -1,4 +1,4 @@
-export { allPagesSlug, pageQuery, pageWithPostsQuery } from "./pageQuery";
+export { allPagesSlug, pageQuery } from "./pageQuery";
 export { allPostSlug, postQuery, postsQuery } from "./post";
 export { projectQuery } from "./project";
 export { siteSettingsQuery } from "./site-settings";

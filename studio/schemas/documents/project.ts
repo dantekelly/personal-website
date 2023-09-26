@@ -15,10 +15,7 @@ const project = defineType({
     defineField({
       name: "image",
       title: "Image",
-      type: "image",
-      options: {
-        hotspot: true,
-      },
+      type: "mainImage",
       validation: (Rule) => Rule.required(),
     }),
     defineField({
@@ -45,8 +42,8 @@ const project = defineType({
       validation: (rule) =>
         rule.custom((currentValue, { document }) => {
           // in a custom validation rule, check if the field should be shown, and if yes, show an error if the value is not set
-          if (document?.isExperiment && currentValue === undefined)
-            return "This is required on none experimental projects.";
+          if (!document?.isExperiment && currentValue === undefined)
+            return "This is required on non experimental projects.";
           // if we are not showing the field, or if the field has a value
           // then the validation passes
           return true;

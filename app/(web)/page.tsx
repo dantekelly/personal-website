@@ -8,6 +8,7 @@ import { type PageType } from "~/types/pageType";
 export const generateMetadata = async (): Promise<Metadata> => {
   const page = await sanityClient.fetch<PageType>(pageQuery, {
     slug: "home",
+    limit: 3,
   });
 
   const ogImage =

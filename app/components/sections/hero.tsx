@@ -22,8 +22,6 @@ export default function Hero({ data }: HeroProps) {
     featuredImage,
   );
 
-  console.log("Body text", body.text);
-
   return (
     <div className="flex flex-col items-center justify-center gap-12 px-4 py-16 xl:flex-row ">
       <Image
@@ -38,7 +36,14 @@ export default function Hero({ data }: HeroProps) {
         <h1 className="text-5xl font-extrabold text-slate-50">{title}</h1>
         {body.text && (
           <span className="text-md text-slate-400">
-            <PortableText value={body.text} />
+            <PortableText
+              components={{
+                types: {
+                  breakObj: () => <br />,
+                },
+              }}
+              value={body.text}
+            />
           </span>
         )}
       </div>

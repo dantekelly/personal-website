@@ -23,14 +23,16 @@ const RenderSection = ({ section }: { section: Sections | PageSections }) => {
 
     case "hero":
       return <Hero data={section} />;
-    /*
-                case "works":
-                  return <Works data={section} />;
-                case "details":
-                  return <Details data={section} />;
-                case "blogs":
-                  return <Blogs data={section} />;
-                  */
+
+    case "works":
+      return <Works data={section} />;
+
+    case "detailsSection":
+      return <Details data={section.details} />;
+
+    case "blogsSection":
+      return <Blogs data={section} />;
+
     default:
       console.warn(`Section couldn't be rendered`);
 
