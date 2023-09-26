@@ -60,7 +60,7 @@ quickly deploy your own instance of this project by clicking the button below.
 
 Here's a sneak peek into what's coming next:
 
-- [ ] Integrate Sanity for blog posts and CMS.
+- [x] Integrate Sanity for blog posts and CMS.
 - [x] Replace Flowbite with Shadcn for server component support.
 - [ ] Publish my inaugural blog post.
 - [ ] Enhance user interactivity with emoji reactions.
