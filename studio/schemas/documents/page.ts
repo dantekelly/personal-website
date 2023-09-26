@@ -55,7 +55,12 @@ const page = defineType({
       title: "Page sections",
       description: "Add, edit, and reorder sections",
       group: "content",
-      of: [{ type: "hero" }],
+      of: [
+        { type: "hero" },
+        { type: "works" },
+        { type: "detailsSection" },
+        { type: "blogsSection" },
+      ],
     }),
   ],
   preview: {

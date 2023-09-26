@@ -59,12 +59,6 @@ const siteSettings = defineType({
       ],
     }),
     defineField({
-      name: "socialFields",
-      type: "socialFields",
-      description: "Social media",
-      group: "social",
-    }),
-    defineField({
       name: "githubUser",
       title: "Github Username",
       type: "string",
