@@ -5,7 +5,7 @@ export const getLastCommitDate = async (
   owner: string,
 ): Promise<string> => {
   try {
-    const { data } = await client.request("GET /repos/{owner}/{repo}/commits", {
+    const { data } = await client.request(`GET /repos/${owner}/${repo}/commits`, {
       owner,
       repo,
       headers: {
