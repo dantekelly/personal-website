@@ -59,10 +59,7 @@ export const worksFragment = `
       "works": *[_type == "work"]{
         _id,
         title,
-        image {
-          _type,
-          asset
-        }
+        image
       }
   }
 `;

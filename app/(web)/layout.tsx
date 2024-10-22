@@ -18,20 +18,22 @@ export const metadata: Metadata = {
   title: "Dante Kelly - Portfolio",
   description: "Personal Portfolio of Dante Kelly",
 };
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default async function RootLayout(
+  {
+    children,
+  }: {
+    children: React.ReactNode;
+  }
+) {
   return (
-    <html lang="en" className={inter.variable}>
+    (<html lang="en" className={inter.variable}>
       <link rel="icon" href="/favicon.ico" sizes="any" />
       <body>
         {children}
-        {draftMode().isEnabled && <VisualEditing />}
+        {(await draftMode()).isEnabled && <VisualEditing />}
         <SpeedInsights />
         <Analytics />
       </body>
-    </html>
+    </html>)
   );
 }

@@ -1,3 +1,4 @@
+'use client'
 import dynamic from "next/dynamic";
 
 import { type CarouseItemType } from "~/components/carousel/Carousel";
@@ -17,8 +18,8 @@ interface WorksProps {
   data: WorksType;
 }
 
-export default async function Works({ data }: WorksProps) {
-  const works = await sanityClient.fetch<Work[]>(workQuery);
+export default function Works({ data }: WorksProps) {
+  const works = data?.works;
 
   const formattedWorks: CarouseItemType[] = works.map((work) => {
     return {

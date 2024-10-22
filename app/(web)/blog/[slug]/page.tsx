@@ -13,13 +13,14 @@ export const generateStaticParams = async () => {
   }));
 };
 
-const SlugRoute = async ({
-  params,
-}: {
-  params: {
-    slug: string;
-  };
-}) => {
+const SlugRoute = async (
+  props: {
+    params: Promise<{
+      slug: string;
+    }>;
+  }
+) => {
+  const params = await props.params;
   const page = await sanityClient.fetch<Blog>(postQuery, {
     slug: params.slug,
   });
