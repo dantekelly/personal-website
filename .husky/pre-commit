@@ -1,1 +1,1 @@
-bunx lint-staged
+bunx mrm@2 lint-staged
