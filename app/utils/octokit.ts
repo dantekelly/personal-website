@@ -5,13 +5,16 @@ export const getLastCommitDate = async (
   owner: string,
 ): Promise<string> => {
   try {
-    const { data } = await client.request(`GET /repos/${owner}/${repo}/commits`, {
-      owner,
-      repo,
-      headers: {
-        "X-GitHub-Api-Version": "2022-11-28",
+    const { data } = await client.request(
+      `GET /repos/${owner}/${repo}/commits`,
+      {
+        owner,
+        repo,
+        headers: {
+          "X-GitHub-Api-Version": "2022-11-28",
+        },
       },
-    });
+    );
     const lastCommit = data[0];
 
     if (!lastCommit?.commit?.committer?.date) {

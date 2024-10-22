@@ -4,7 +4,6 @@ import type { StructureBuilder } from "sanity/desk";
 export const SocialMediaItem = (S: StructureBuilder) =>
   S.listItem()
     .title("Social Media")
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     .icon(RiTeamFill)
     .child(
       S.documentTypeList("socialField")

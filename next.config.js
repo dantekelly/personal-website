@@ -1,16 +1,16 @@
 /** @type {import('next').NextConfig} */
 module.exports = {
-    // reactStrictMode: true,
+  // reactStrictMode: true,
 
-    images: {
-      domains: ['cdn.sanity.io'],
-    },
+  images: {
+    domains: ["cdn.sanity.io"],
+  },
 
-    experimental: {
-      // Used to guard against accidentally leaking SANITY_API_READ_TOKEN to the browser
-      taint: true,
-    },
-    logging: {
-      fetches: { fullUrl: false },
-    },
-  };
+  experimental: {
+    // Used to guard against accidentally leaking SANITY_API_READ_TOKEN to the browser
+    taint: true,
+  },
+  logging: {
+    fetches: { fullUrl: false },
+  },
+};

@@ -4,7 +4,7 @@ import { draftMode } from "next/headers";
 import { client } from "@/sanity/lib/client";
 import { token } from "@/sanity/lib/token";
 
-const { isEnabled } = await draftMode()
+const { isEnabled } = await draftMode();
 
 /**
  * Used to fetch data in Server Components, it has built in support for handling Draft Mode and perspectives.
