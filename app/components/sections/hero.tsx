@@ -23,7 +23,7 @@ export default function Hero({ data }: HeroProps) {
   );
 
   return (
-    <div className="flex flex-col items-center justify-center gap-12 px-4 py-16 xl:flex-row ">
+    <div className="flex flex-col items-center justify-center gap-12 px-4 py-16 xl:flex-row">
       <Image
         {...imageProps}
         alt={featuredImage.alt}

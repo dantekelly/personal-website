@@ -14,7 +14,7 @@ export default function Blogs({ data }: { data: Blogs }) {
         {data.title}
       </p>
       <div className="flex flex-1 flex-col items-center gap-6">
-        <div className="flex flex-col items-center justify-center gap-12 px-4 xl:flex-row ">
+        <div className="flex flex-col items-center justify-center gap-12 px-4 xl:flex-row">
           {data.blogs.slice(0, 3).map((blog) => (
             <BlogCard key={blog._id} {...blog} />
           ))}
