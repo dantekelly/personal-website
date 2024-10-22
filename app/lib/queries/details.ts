@@ -1,8 +1,12 @@
-import { groq } from "next-sanity";
-import { detailsFragment } from "~/lib/queries/fragments";
+import { defineQuery } from "next-sanity";
 
-export const detailsQuery = groq`
+// Export the detailsFragment
+export const detailsFragment = `
+  // Add the fields from your detailsFragment here
+`;
+
+export const detailsQuery = defineQuery(`
 	*[_type == 'details' && _id == 'details'][0]{
 	    ${detailsFragment}
 	}
-`;
+`);

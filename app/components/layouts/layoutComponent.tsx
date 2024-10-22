@@ -6,7 +6,7 @@ import { type Details } from "~/types/sections/details";
 
 interface LayoutProps {
   children: React.ReactNode;
-  data: Details;
+  data?: Details;
 }
 
 export default function LayoutComponent({ children, data }: LayoutProps) {
@@ -18,7 +18,7 @@ export default function LayoutComponent({ children, data }: LayoutProps) {
         {children}
       </main>
 
-      <Aside data={data} />
+      {data && <Aside data={data} />}
     </div>
   );
 }

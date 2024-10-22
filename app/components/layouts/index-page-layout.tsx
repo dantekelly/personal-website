@@ -1,17 +1,14 @@
 import type { PageType } from "~/types/pageType";
 import { LayoutComponent } from "~/components/layouts/index";
-import { sanityClient } from "~/lib/sanity/client";
 import { RenderSection } from "~/components/sections/sanity";
 import { type Details } from "~/types/sections/details";
-import { detailsQuery } from "~/lib/queries/details";
 
 type Props = {
-  page: PageType;
+  details?: Details;
+  page?: PageType;
 };
 
-const IndexPage = async ({ page }: Props) => {
-  const details = await sanityClient.fetch<Details>(detailsQuery);
-
+const IndexPage = ({ details, page }: Props) => {
   return (
     <LayoutComponent data={details}>
       {page?.content?.map((section) => {

@@ -24,11 +24,11 @@ export interface DetailsContent {
 }
 
 export interface Details {
-  body: SimpleBlockContent;
-  siteSettings: {
-    githubUser: string;
+  body?: SimpleBlockContent;
+  siteSettings?: {
+    githubUser?: string;
   };
-  content: DetailsContent[];
+  content?: DetailsContent[];
 }
 
 export interface DetailsSection {

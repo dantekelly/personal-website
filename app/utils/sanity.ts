@@ -59,10 +59,14 @@ function isBlockContent(
   return block._type === "blockContent";
 }
 
-function isBlock(block: BlockContent | SanityBlock): block is SanityBlock {
-  return block._type === "block";
+function isBlock(
+  block: BlockContent | SanityBlock,
+): block is SanityBlock & { children: { text: string }[] } {
+  return block._type === "block" && "children" in block;
 }
 
-function isNotCustomImage(block: SanityBlock): block is PortableTextBlock {
-  return block._type !== "customImage";
+function isNotCustomImage(
+  block: SanityBlock,
+): block is SanityBlock & { children: { text: string }[] } {
+  return block._type !== "customImage" && "children" in block;
 }

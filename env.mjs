@@ -1,13 +1,18 @@
 import { createEnv } from "@t3-oss/env-nextjs";
+import { vercel } from '@t3-oss/env-core/presets'
 import { z } from "zod";
 
 export const env = createEnv({
+  extends: [
+    vercel(),
+  ],
   /**
    * Specify your server-side environment variables schema here. This way you can ensure the app
    * isn't built with invalid env vars.
    */
   server: {
     NODE_ENV: z.enum(["development", "test", "production"]),
+    SANITY_API_READ_TOKEN: z.string().min(1),
   },
 
   /**
@@ -16,8 +21,8 @@ export const env = createEnv({
    * `NEXT_PUBLIC_`.
    */
   client: {
-    // NEXT_PUBLIC_SANITY_DATASET: z.string().min(1),
-    // NEXT_PUBLIC_SANITY_PROJECT_ID: z.string().min(1),
+    NEXT_PUBLIC_SANITY_DATASET: z.string().min(1),
+    NEXT_PUBLIC_SANITY_PROJECT_ID: z.string().min(1),
     // NEXT_PUBLIC_CLIENTVAR: z.string().min(1),
   },
 

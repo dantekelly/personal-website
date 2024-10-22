@@ -32,10 +32,10 @@ const breakpoints = fullConfig?.theme?.screens ?? {
   xl: "1280px",
 };
 
-type BreakpointKey = keyof ScreensConfig;
+type BreakpointKey = keyof typeof breakpoints;
 
-export function useBreakpoint<K extends string>(breakpointKey: K) {
-  const breakpointValue = breakpoints[breakpointKey as BreakpointKey];
+export function useBreakpoint<K extends BreakpointKey>(breakpointKey: K) {
+  const breakpointValue = breakpoints[breakpointKey];
 
   if (typeof breakpointValue !== "string") {
     throw new Error(`Invalid breakpoint value`);

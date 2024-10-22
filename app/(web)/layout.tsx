@@ -23,12 +23,22 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const { isEnabled } = await draftMode();
+
   return (
     <html lang="en" className={inter.variable}>
       <link rel="icon" href="/favicon.ico" sizes="any" />
       <body>
+        {isEnabled && (
+          <a
+            className="fixed bottom-0 right-0 m-4 bg-blue-500 p-4 text-white"
+            href="/api/draft-mode/disable"
+          >
+            Disable preview mode
+          </a>
+        )}
         {children}
-        {(await draftMode()).isEnabled && <VisualEditing />}
+        {isEnabled && <VisualEditing />}
         <SpeedInsights />
         <Analytics />
       </body>

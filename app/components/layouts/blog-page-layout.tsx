@@ -4,18 +4,16 @@ import { RxChevronRight } from "react-icons/rx";
 
 import type { Blog } from "~/types/blog";
 import { LayoutComponent } from "~/components/layouts/index";
-import { sanityClient, urlForImage } from "~/lib/sanity/client";
+import { urlForImage } from "~/lib/sanity/client";
 import { RenderSection } from "~/components/sections/sanity";
 import { type Details } from "~/types/sections/details";
-import { detailsQuery } from "~/lib/queries/details";
 
 type Props = {
-  page: Blog;
+  details?: Details;
+  page?: Blog;
 };
 
-const BlogPage = async ({ page }: Props) => {
-  const details = await sanityClient.fetch<Details>(detailsQuery);
-
+const BlogPage = async ({ details, page }: Props) => {
   let imageSrc = null;
 
   if (page?.featuredImage) {
@@ -49,7 +47,7 @@ const BlogPage = async ({ page }: Props) => {
           </Link>
         </div>
 
-        <h1 className="text-center">{page.title}</h1>
+        <h1 className="text-center">{page?.title || ""}</h1>
       </div>
       <div className="my-8 flex h-[1px] w-full flex-col items-center gap-4 bg-slate-600" />
 

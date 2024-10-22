@@ -1,6 +1,6 @@
-import { groq } from "next-sanity";
+import { defineQuery } from "next-sanity";
 
-export const workQuery = groq`
+export const workQuery = defineQuery(`
 	*[_type == "work"]{
       _id,
       title,
@@ -8,4 +8,4 @@ export const workQuery = groq`
       isExperiment,
       svg
     }
-`;
+`);

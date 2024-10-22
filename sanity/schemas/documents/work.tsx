@@ -29,8 +29,8 @@ const work = defineType({
     },
   },
   components: {
+    // @ts-expect-error
     preview: ({ icon, title }) => {
-      console.log("DEBUG10", icon, title);
       return <InlineSvgPreviewItem icon={icon} title={title} />;
     },
   },

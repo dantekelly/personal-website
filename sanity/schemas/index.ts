@@ -30,7 +30,7 @@ import works from "./sections/works";
 import detailsSection from "./sections/details-section";
 import blogsSection from "./sections/blogs-section";
 
-export const schemasTypes: SchemaTypeDefinition[] = [
+export const schemasTypes = [
   // Documents
   page,
   post,

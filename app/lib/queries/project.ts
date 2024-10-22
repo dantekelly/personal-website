@@ -1,6 +1,6 @@
-import { groq } from "next-sanity";
+import { defineQuery } from "next-sanity";
 
-export const projectQuery = groq`
+export const projectQuery = defineQuery(`
 	*[_type == "project"]{
       _id,
       title,
@@ -10,4 +10,4 @@ export const projectQuery = groq`
       isExperiment,
       githubLink
     }
-`;
+`);

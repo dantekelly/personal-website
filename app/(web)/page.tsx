@@ -5,15 +5,21 @@ import { sanityClient, urlForImage } from "~/lib/sanity/client";
 import { pageQuery } from "~/lib/queries";
 import { type PageType } from "~/types/pageType";
 import { sanityFetch } from "@/sanity/lib/fetch";
+import { Details } from "../types/sections/details";
+
+interface PageProps {
+  details?: Details;
+  page?: PageType;
+}
 
 export const generateMetadata = async (): Promise<Metadata> => {
-  const page = await sanityClient.fetch<PageType>(pageQuery, {
+  const { page } = await sanityClient.fetch<PageProps>(pageQuery, {
     slug: "home",
     limit: 3,
   });
 
   const ogImage =
-    (page.meta?.openGraphImage &&
+    (page?.meta?.openGraphImage &&
       urlForImage(page.meta.openGraphImage)
         .width(800)
         .height(600)
@@ -22,14 +28,14 @@ export const generateMetadata = async (): Promise<Metadata> => {
     "";
 
   return {
-    title: page.meta?.metaTitle ?? page.title,
+    title: page?.meta?.metaTitle ?? page?.title,
     icons: {
       icon: "/favicon/favicon.svg",
     },
-    description: page.meta?.metaDescription,
+    description: page?.meta?.metaDescription,
     openGraph: {
-      title: page.meta?.openGraphTitle,
-      description: page.meta?.openGraphDescription,
+      title: page?.meta?.openGraphTitle,
+      description: page?.meta?.openGraphDescription,
       images: [
         {
           url: ogImage,
@@ -42,12 +48,14 @@ export const generateMetadata = async (): Promise<Metadata> => {
 };
 
 export default async function Page() {
-  const pageData = await sanityFetch<PageType>({
+  const pageData = await sanityFetch({
     query: pageQuery,
     params: {
       slug: "home",
     },
   });
 
-  return <IndexPageLayout page={pageData} />;
+  // TODO: Fix the type error
+  // @ts-expect-error
+  return <IndexPageLayout details={pageData?.details} page={pageData?.page} />;
 }

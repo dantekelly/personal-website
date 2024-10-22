@@ -1,6 +1,6 @@
-import { groq } from "next-sanity";
+import { defineQuery } from "next-sanity";
 
-export const siteSettingsQuery = groq`
+export const siteSettingsQuery = defineQuery(`
 	*[_id == "siteSettings"][0] {
 	    socialFields {
           twitter,
@@ -11,4 +11,4 @@ export const siteSettingsQuery = groq`
         },
 	    githubUser
 	}
-`;
+`);

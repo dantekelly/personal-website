@@ -1,21 +1,27 @@
-import { groq } from "next-sanity";
+import { defineQuery } from "next-sanity";
+import { detailsFragment } from "./fragments";
 
-export const postQuery = groq`
-	*[_type == 'post' && slug.current == $slug][0] {
-		_id,
-		title,
-		slug,
-		meta,
-		publishedAt,
-		keywords,
-		excerpt,
-		featuredImage,
-		tag,
-		content
+export const postQuery = defineQuery(`
+	{
+		"post": *[_type == 'post' && slug.current == $slug][0] {
+			_id,
+			title,
+			slug,
+			meta,
+			publishedAt,
+			keywords,
+			excerpt,
+			featuredImage,
+			tag,
+			content
+		},
+		"details": *[_type == 'details' && _id == 'details'][0]{
+			${detailsFragment}
+		}
 	}
-`;
+`);
 
-export const postsQuery = groq`
+export const postsQuery = defineQuery(`
 	*[_type == 'post' && !(_id in path("drafts.**")) && defined(slug.current)]{ ..., tag-> } | order(_createdAt desc)[0...$limit] {
 	    _id,
 		title,
@@ -30,8 +36,8 @@ export const postsQuery = groq`
 		},
 		content
 	}
-`;
+`);
 
-export const allPostSlug = groq`
+export const allPostSlug = defineQuery(`
 	*[_type == 'post' && !(_id in path("drafts.**")) && defined(slug.current)][].slug.current
-`;
+`);

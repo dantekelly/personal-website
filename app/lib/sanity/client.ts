@@ -9,7 +9,8 @@ export const config = {
   apiVersion: "2022-11-15",
 };
 
-export const urlForImage = (source: SanityImageSource) =>
-  createImageUrlBuilder(config).image(source);
+export const urlForImage = (source: SanityImageSource) => {
+  return createImageUrlBuilder(config).image(source);
+};
 
 export const sanityClient = createClient(config);

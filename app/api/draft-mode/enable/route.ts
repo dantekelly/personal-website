@@ -1,29 +1,30 @@
-/**
- * This file is used to allow Presentation to set the app in Draft Mode, which will load Visual Editing
- * and query draft content and preview the content as it will appear once everything is published
- */
-
 import { validatePreviewUrl } from "@sanity/preview-url-secret";
 import { draftMode } from "next/headers";
-import { redirect } from "next/navigation";
+import { NextRequest, NextResponse } from "next/server";
 
 import { client } from "@/sanity/lib/client";
 import { token } from "@/sanity/lib/token";
 
 const clientWithToken = client.withConfig({ token });
 
-export async function GET(request: Request) {
-  const { isValid, redirectTo = "/" } = await validatePreviewUrl(
-    clientWithToken,
-    request.url,
-  );
-  if (!isValid) {
-    return new Response("Invalid secret", { status: 401 });
+export async function GET(request: NextRequest) {
+  if (!process.env.SANITY_API_READ_TOKEN) {
+    return new Response("Missing environment variable SANITY_API_READ_TOKEN", {
+      status: 500,
+    });
   }
 
   const draft = await draftMode();
 
-  draft.enable();
+  const { isValid, redirectTo = "/" } = await validatePreviewUrl(
+    clientWithToken,
+    request.url,
+  );
 
-  redirect(redirectTo);
+  if (!isValid) {
+    return new Response("Invalid secret", { status: 401 });
+  }
+
+  draft.enable();
+  return NextResponse.redirect(new URL(redirectTo, request.url));
 }

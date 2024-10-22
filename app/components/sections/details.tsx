@@ -126,7 +126,11 @@ interface ListsProps {
 const Lists = async ({ data }: ListsProps) => {
   dayjs.extend(relativeTime);
 
-  const { githubUser } = data.siteSettings;
+  const githubUser = data.siteSettings?.githubUser;
+
+  if (!data?.content) {
+    return null;
+  }
 
   for (const section of data.content) {
     for (const item of section.content) {
@@ -144,7 +148,13 @@ const Lists = async ({ data }: ListsProps) => {
       }
 
       try {
-        item.lastUpdated = await getLastCommitApi(repo, githubUser);
+        // Sanitize repo and githubUser from invisible characters
+        const sanitizedRepo = repo.replace(/[^\w-]/g, "");
+        const sanitizedGithubUser = githubUser?.replace(/[^\w-]/g, "");
+
+        item.lastUpdated = sanitizedGithubUser
+          ? await getLastCommitApi(sanitizedRepo, sanitizedGithubUser)
+          : undefined;
       } catch (e) {
         console.error(e);
       }
@@ -173,9 +183,12 @@ export default function DetailsComponent({ data, layout }: DetailsProps) {
         !layout && "md:hidden",
       )}
     >
-      <span className="text-slate-50">
-        <PortableText value={data.body.text} />
-      </span>
+      {data.body && (
+        <span className="text-slate-50">
+          <PortableText value={data.body.text} />
+        </span>
+      )}
+
       <div className="mt-[48px] flex flex-col gap-[36px]">
         <Lists data={data} />
       </div>

@@ -2,9 +2,7 @@
 import dynamic from "next/dynamic";
 
 import { type CarouseItemType } from "~/components/carousel/Carousel";
-import { sanityClient, urlForImage } from "~/lib/sanity/client";
-import { workQuery } from "~/lib/queries";
-import { type Work } from "~/types/work";
+import { urlForImage } from "~/lib/sanity/client";
 import { type Works as WorksType } from "~/types/sections/works";
 
 const DynamicCarousel = dynamic(
