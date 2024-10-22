@@ -1,28 +1,86 @@
-import { defineConfig } from "sanity";
-import { deskTool } from "sanity/desk";
+"use client";
+
+import { inlineSvgInput } from "@focus-reactive/sanity-plugin-inline-svg-input";
+import { defineConfig, type PluginOptions } from "sanity";
+/*
+import {
+  presentationTool,
+  defineDocuments,
+  defineLocations,
+  type DocumentLocation,
+} from "sanity/presentation";
+*/
+import { structureTool } from "sanity/structure";
 import { visionTool } from "@sanity/vision";
 import { unsplashImageAsset } from "sanity-plugin-asset-source-unsplash";
 
-import { singletonPlugin } from "./studio/plugins/singletonPlugin";
-import { previewDocumentNode } from "./studio/plugins/preview";
-import { schemasTypes } from "./studio/schemas";
-import { structure } from "./studio/structure";
+import { apiVersion, dataset, projectId, studioUrl } from "./sanity/lib/api";
+import { pageStructure, singletonPlugin } from "./sanity/plugins/settings";
+import { schemasTypes } from "./sanity/schemas";
+import settings from "./sanity/schemas/singletons/settings";
+import { resolveHref } from "./sanity/lib/utils";
+
+/*
+const homeLocation = {
+  title: "Home",
+  href: "/",
+} satisfies DocumentLocation;
+*/
 
 export default defineConfig({
-  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID!,
-  dataset: process.env.NEXT_PUBLIC_SANITY_DATASET!,
-  name: "Studio",
-  basePath: "/studio",
+  basePath: studioUrl,
+  projectId,
+  dataset,
   schema: {
     types: schemasTypes,
   },
   plugins: [
-    deskTool({
-      structure,
-      defaultDocumentNode: previewDocumentNode(),
+    /*
+    presentationTool({
+      resolve: {
+        mainDocuments: defineDocuments([
+          {
+            route: "/posts/:slug",
+            filter: `_type == "post" && slug.current == $slug`,
+          },
+        ]),
+        locations: {
+          settings: defineLocations({
+            locations: [homeLocation],
+            message: "This document is used on all pages",
+            tone: "caution",
+          }),
+          post: defineLocations({
+            select: {
+              title: "title",
+              slug: "slug.current",
+            },
+            resolve: (doc) => ({
+              locations: [
+                {
+                  title: doc?.title || "Untitled",
+                  href: resolveHref("post", doc?.slug)!,
+                },
+                homeLocation,
+              ],
+            }),
+          }),
+        },
+      },
+      previewUrl: { previewMode: { enable: "/api/draft" } },
     }),
-    singletonPlugin({ types: ["siteSettings"] }),
-    visionTool(),
+    */
+    structureTool({ structure: pageStructure([settings]) }),
+    // Configures the global "new document" button, and document actions, to suit the Settings document singleton
+    singletonPlugin(["siteSettings"]),
+    // Add an image asset source for Unsplash
     unsplashImageAsset(),
-  ],
+    // Sets up AI Assist with preset prompts
+    // https://www.sanity.io/docs/ai-assist
+    inlineSvgInput(),
+    // Vision lets you query your content with GROQ in the studio
+    // https://www.sanity.io/docs/the-vision-plugin
+    process.env.NODE_ENV === "development" &&
+      visionTool({ defaultApiVersion: apiVersion }),
+  ].filter(Boolean) as PluginOptions[],
 });

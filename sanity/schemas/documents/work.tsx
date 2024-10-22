@@ -1,4 +1,5 @@
 import { defineField, defineType } from "sanity";
+import { InlineSvgPreviewItem } from "@focus-reactive/sanity-plugin-inline-svg-input";
 
 const work = defineType({
   name: "work",
@@ -13,19 +14,24 @@ const work = defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
-      name: "image",
-      title: "Image",
-      type: "image",
-      options: {
-        hotspot: true,
-      },
+      name: "icon",
+      title: "Icon (SVG)",
+      type: "inlineSvg",
       validation: (Rule) => Rule.required(),
     }),
   ],
   preview: {
     select: {
       title: "title",
-      media: "image.asset",
+      icon: "icon",
+      // media: "svg",
+      // media: "image.asset",
+    },
+  },
+  components: {
+    preview: ({ icon, title }) => {
+      console.log("DEBUG10", icon, title);
+      return <InlineSvgPreviewItem icon={icon} title={title} />;
     },
   },
 });

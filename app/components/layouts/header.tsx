@@ -2,7 +2,7 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 
-import DanteIcon from "@/icons/icon-dante.png";
+import DanteIcon from "@/public/icons/icon-dante.png";
 import { Button } from "~/components/ui/button";
 
 export default function Header() {

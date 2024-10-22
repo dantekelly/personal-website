@@ -17,6 +17,9 @@ export default {
       },
     },
     extend: {
+      fontFamily: {
+        sans: ["var(--font-inter)"],
+      },
       gridTemplateColumns: {
         layout: "1fr 400px",
       },
@@ -330,8 +333,12 @@ export default {
       },
     },
   },
+  future: {
+    hoverOnlyWhenSupported: true,
+  },
   plugins: [
     require("tailwindcss-animate"),
     require("@savvywombat/tailwindcss-grid-areas"),
+    require("@tailwindcss/typography"),
   ],
 } satisfies Config;

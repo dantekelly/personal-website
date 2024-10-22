@@ -1,4 +1,4 @@
-import { type PortableTextBlock } from "@portabletext/types/src/portableText";
+import { PortableTextBlock } from "@sanity/types";
 
 export interface SanityCustomImage {
   alt: string;

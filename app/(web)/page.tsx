@@ -4,6 +4,7 @@ import { IndexPageLayout } from "~/components/layouts";
 import { sanityClient, urlForImage } from "~/lib/sanity/client";
 import { pageQuery } from "~/lib/queries";
 import { type PageType } from "~/types/pageType";
+import { sanityFetch } from "@/sanity/lib/fetch";
 
 export const generateMetadata = async (): Promise<Metadata> => {
   const page = await sanityClient.fetch<PageType>(pageQuery, {
@@ -41,8 +42,11 @@ export const generateMetadata = async (): Promise<Metadata> => {
 };
 
 export default async function Page() {
-  const pageData = await sanityClient.fetch<PageType>(pageQuery, {
-    slug: "home",
+  const pageData = await sanityFetch<PageType>({
+    query: pageQuery,
+    params: {
+      slug: "home",
+    },
   });
 
   return <IndexPageLayout page={pageData} />;

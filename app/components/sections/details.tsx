@@ -10,8 +10,8 @@ import {
   type DetailsInnerContent,
 } from "~/types/sections/details";
 
-import ArrowRightIcon from "@/icons/icon-arrow-right.png";
-import BlankIcon from "@/icons/icon-blank.png";
+import ArrowRightIcon from "@/public/icons/icon-arrow-right.png";
+import BlankIcon from "@/public/icons/icon-blank.png";
 import { getLastCommitDate as getLastCommitApi } from "~/utils/octokit";
 import { PortableText } from "@portabletext/react";
 

@@ -5,6 +5,7 @@ export const workQuery = groq`
       _id,
       title,
       image,
-      isExperiment
+      isExperiment,
+      svg
     }
 `;
